@@ -50,6 +50,20 @@ public class SprintApiApplicationTests {
 	}
 	
 	@Test
+	void testExistsMinMax() throws Exception {
+		MvcResult result = mvc.perform(get("/movies").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+	            .andReturn();
+
+		String content = result.getResponse().getContentAsString();
+		ListMovieDTO responseListFilmeDTO = objectMapper.readValue(content, ListMovieDTO.class);
+		assertTrue(responseListFilmeDTO != null && responseListFilmeDTO.getMax() != null && !responseListFilmeDTO.getMax().isEmpty()
+				&& responseListFilmeDTO.getMin()!= null && !responseListFilmeDTO.getMin().isEmpty()); 		
+				
+	}
+	
+	
+	@Test
 	void testNewMaxInterval() throws Exception {
 		MvcResult result = mvc.perform(get("/movies").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())

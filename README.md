@@ -1,5 +1,5 @@
 # Spring API RESTful
-Este projeto tem como objetivo ler um arquivo CSV, gravar no banco de dados e disponibilizar através de um serviço Rest os piores filmes ganhadores de um mesmo produtor que obteve o Menor intevalo entre duas premiações e o Maior intervalo
+Este projeto tem como objetivo ler um arquivo CSV, gravar no banco de dados e disponibilizar através de um serviço Rest os piores filmes ganhadores de um mesmo produtor que obteve o Menor intervalo entre duas premiações e o Maior intervalo
 
 ## Tecnologias
 Este projeto foi criado com:

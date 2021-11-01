@@ -16,6 +16,7 @@ import br.com.curbani.spring.model.Producer;
 import br.com.curbani.spring.repository.MovieRepository;
 import br.com.curbani.spring.repository.ProducerRepository;
 import br.com.curbani.spring.util.csv.ManipulateCSV;
+import br.com.curbani.spring.validate.MovieValidate;
 
 @SpringBootApplication
 @EnableJpaRepositories
@@ -44,6 +45,8 @@ public class SprintApiApplication implements CommandLineRunner{
 		logger.info("Iniciando leitura de arquivo CSV.");
 		ManipulateCSV csvService = new ManipulateCSV();		
 		List<Movie> listMovies = csvService.readCSVtoList(nameCSV);
+		MovieValidate movieValidate = new MovieValidate();
+		movieValidate.validMovie(listMovies);
 		logger.info("Finalizou a leitura do arquivo CSV.");
 		logger.info("Iniciando persistencia das informacoes no banco de dados.");
 		for (Movie movie : listMovies) {
@@ -61,7 +64,8 @@ public class SprintApiApplication implements CommandLineRunner{
 		}
 		logger.info("Finalizou a persistencia no banco de dados.");	
 		
-	}
+	}	
+	
 	
 	
 
