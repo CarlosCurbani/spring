@@ -8,15 +8,20 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import br.com.curbani.spring.SprintApiApplication;
 import br.com.curbani.spring.bean.MovieCSV;
 import br.com.curbani.spring.model.Movie;
 import br.com.curbani.spring.model.Producer;
 
 public class ManipulateCSV {	
 	
+	private static Logger logger = LoggerFactory.getLogger(ManipulateCSV.class);
 	
 	public List<Movie> readCSVtoList(String nameCSV) {
 		Reader reader;
@@ -29,7 +34,7 @@ public class ManipulateCSV {
 					.withIgnoreEmptyLine(true)					
 					.withSeparator(';')					
 					.build();			
-	
+			
 			List<MovieCSV> listFilmesCSV = csvToBean.parse();
 			
 			for (MovieCSV filmeCSV : listFilmesCSV) {				
@@ -39,16 +44,18 @@ public class ManipulateCSV {
 						splitProducer(filmeCSV.getProducers()),					
 						filmeCSV.isWinner()));
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		} catch (Exception exc) {
+			logger.error("Erro ao tentar efetuar o carregamento do CSV: {}", exc.getMessage());
+			logger.error("Possivel causa:", exc.getCause());			
+		} 
 		return listFilmes;
 
 	}
 	
-	private List<Producer> splitProducer(String producers){	
+	private List<Producer> splitProducer(String producers){
+		if(producers == null || producers.isEmpty()) {
+			return null;
+		}
 		List<Producer> listProducers  = new ArrayList<>();
 		String[] arrayProducer = producers.replace(" and ", ",").split(",");
 		for (int i = 0; i < arrayProducer.length; i++) {

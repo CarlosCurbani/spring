@@ -6,25 +6,25 @@ import java.util.Objects;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 
-import br.com.curbani.spring.util.csv.SampleConverter;
+import br.com.curbani.spring.util.csv.WinnerConverter;
 
 public class MovieCSV implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@CsvBindByName(column = "year")
+	@CsvBindByName(column = "year", required = true)
 	private int year;
 
-	@CsvBindByName(column = "title")
+	@CsvBindByName(column = "title", required = true)
 	private String title;
 
-	@CsvBindByName(column = "studios")
+	@CsvBindByName(column = "studios", required = true)
 	private String studios;
 
-	@CsvBindByName(column = "producers")
+	@CsvBindByName(column = "producers", required = true)
 	private String producers;
 
-	@CsvCustomBindByName(column = "winner", required = false, converter = SampleConverter.class)
+	@CsvCustomBindByName(column = "winner", required = false, converter = WinnerConverter.class)
 	private boolean winner;
 
 	public int getYear() {

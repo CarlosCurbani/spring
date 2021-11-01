@@ -43,19 +43,21 @@ public class SprintApiApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		logger.info("Iniciando leitura de arquivo CSV.");
 		ManipulateCSV csvService = new ManipulateCSV();		
-		List<Movie> listFilmes = csvService.readCSVtoList(nameCSV);
+		List<Movie> listMovies = csvService.readCSVtoList(nameCSV);
 		logger.info("Finalizou a leitura do arquivo CSV.");
 		logger.info("Iniciando persistencia das informacoes no banco de dados.");
-		for (Movie filme : listFilmes) {
-			for(Producer producer : filme.getProducers()) {
-				Long producerID =  producerRepository.findProducerByName(producer.getName());
-				if(producerID != null) {
-					producer.setId(producerID);
-				}else {
-					producerRepository.save(producer);					
-				}				
-			}
-			movieRepository.save(filme);			
+		for (Movie movie : listMovies) {
+			if(movie != null && movie.getProducers() != null && !movie.getProducers().isEmpty()) {
+				for(Producer producer : movie.getProducers()) {
+					Long producerID =  producerRepository.findProducerByName(producer.getName());
+					if(producerID != null) {
+						producer.setId(producerID);
+					}else {
+						producerRepository.save(producer);					
+					}				
+				}
+				movieRepository.save(movie);
+			}						
 		}
 		logger.info("Finalizou a persistencia no banco de dados.");	
 		

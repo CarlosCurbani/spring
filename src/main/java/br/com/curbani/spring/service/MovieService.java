@@ -24,8 +24,7 @@ public class MovieService {
 	private static Logger logger = LoggerFactory.getLogger(MovieService.class);
 	
 	public ListMovieDTO findFilme() {
-		logger.info("Recenbendo uma chamada para busca dos filmes.");
-		ListMovieDTO listFilmeDTO = new ListMovieDTO();
+		logger.info("Recenbendo uma chamada para busca dos filmes.");		
 		TreeMap<Integer, List<MovieDTO>> mapFilmeDTO = new TreeMap<Integer, List<MovieDTO>>();		
 		
 		logger.info("Iniciando busca dos filmes no banco de dados");
@@ -48,9 +47,11 @@ public class MovieService {
 				}
 			}					
 		}
-		
-		listFilmeDTO.getMin().addAll(mapFilmeDTO.get(mapFilmeDTO.firstKey()));		
-		listFilmeDTO.getMax().addAll(mapFilmeDTO.get(mapFilmeDTO.lastKey()));
+		ListMovieDTO listFilmeDTO = new ListMovieDTO();
+		if(!mapFilmeDTO.isEmpty()) {
+			listFilmeDTO.getMin().addAll(mapFilmeDTO.get(mapFilmeDTO.firstKey()));		
+			listFilmeDTO.getMax().addAll(mapFilmeDTO.get(mapFilmeDTO.lastKey()));						
+		}
 		logger.info("Finalizou a consulta dos intervalos, retornando objeto para o request");
 		return listFilmeDTO;
 	}
